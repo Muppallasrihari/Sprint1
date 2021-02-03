@@ -1,109 +1,76 @@
 package com.cg.healthify.services;
 
 import java.util.List;
-import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
-import com.cg.healthify.exceptions.NoRecordFoundException;
+import com.cg.healthify.daos.ExerciseDAO;
+import com.cg.healthify.daos.ExerciseDAOImpl;
+import com.cg.healthify.exceptions.NegativeIdException;
 import com.cg.healthify.pojo.Exercise;
-import com.cg.healthify.pojo.Login;
-import com.cg.healthify.util.DBUtil;
-import com.cg.healthify.daos.*;
 
-public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
+public class ExerciseServiceImpl implements ExerciseService {
 	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nutritionapp");
-	Exercise exercise = new Exercise();
-	ExerciseDAOImpl exercisedao = new ExerciseDAOImpl();
-	Login login = new Login();
-	Scanner sc = new Scanner(System.in);
 
-	@Override
-	public Exercise addExercise(Exercise exercise) {
-		int io = 0;
-		try {
-			EntityManager entityManager = entityManagerFactory.createEntityManager();
-			Query query = entityManager.createQuery("from Login");
-			List<Login> loginm = query.getResultList();
-			for (Login i : loginm) {
-				if (i.getId() == exercise.getId()) {
-					io++;
-					break;
-				}
-			}
-			Validate(io);
-		} catch (NoRecordFoundException m) {
-			System.out.println(m);
-		}
-		if (io == 1) 
-			exercisedao.saveExercise(exercise);//, login);
+	private ExerciseDAO exerciseDAO;
 
-		return exercise;
+	public ExerciseServiceImpl() {
+		exerciseDAO = new ExerciseDAOImpl();
 
 	}
-
+	@Override
+	public Exercise addExercise(Exercise exercise) {
+		exerciseDAO.saveExercise(exercise);
+		return exercise;
+	}
 
 	@Override
-	public Exercise updateExercise(Exercise exercise) {
-		int io = 0;
-		try {
-			EntityManager entityManager = entityManagerFactory.createEntityManager();
-			Query query = entityManager.createQuery("from Login");
-			List<Login> loginm = query.getResultList();
-			for (Login i : loginm) {
-				if (i.getId() == exercise.getId()) {
-					io++;
-					break;
-				}
-			}
-			Validate(io);
-		} catch (NoRecordFoundException m) {
-			System.out.println(m);
+	public Exercise updateExercise(Exercise exercise) throws NegativeIdException, NullPointerException {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+		Exercise ex=entityManager.find(Exercise.class, exercise.getId());
+		if(exercise.getId()<0) {
+			throw new NegativeIdException();
 		}
-		if (io == 1) 
-
-			exercisedao.updateExercise(exercise);
-
-		return exercise;
+		else if(ex!=null) {
+			exerciseDAO.updateExercise(exercise);
+			return exercise;
+		}
+		else {
+			throw new NullPointerException();
+		}
 	}
 
 	@Override
 	public Exercise deleteExercise(Exercise exercise) {
-		exercisedao.deleteExercise(exercise);
+		exerciseDAO.deleteExercise(exercise);
 		return exercise;
 	}
 
 	@Override
-	public Exercise findExerciseData(Exercise exercise) {
-		int io = 0;
-		try {
-			EntityManager entityManager = entityManagerFactory.createEntityManager();
-			Query query = entityManager.createQuery("from Login");
-			List<Login> loginm = query.getResultList();
-			for (Login i : loginm) {
-				if (i.getId() == exercise.getId()) {
-					io++;
-					break;
-				}
-			}
-			Validate(io);
-		} catch (NoRecordFoundException m) {
-			System.out.println(m);
+	public List<Exercise> findAll() {
+		exerciseDAO.findAll();
+		return null;
+	}
+
+	@Override
+	public Exercise findById(int id) throws NullPointerException, NegativeIdException {
+		if(id<0) {
+			throw new NegativeIdException();
 		}
-		if (io == 1) 
-			exercisedao.customerExercisePlan(exercise);
-
-		return exercise;
+		else {
+			Exercise ex=exerciseDAO.findById(id);
+			return ex;
+		}
 	}
 
-	private void Validate(int io) throws NoRecordFoundException {
-		if (io == 0) 
-			throw new NoRecordFoundException("No Records Found");
-
+	@Override
+	public void validateId(int id) throws NegativeIdException {
+		if(id<0) {
+			throw new NegativeIdException("Null Id.");
+		}
 	}
-
 
 }
