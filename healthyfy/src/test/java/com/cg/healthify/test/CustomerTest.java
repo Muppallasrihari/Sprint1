@@ -34,17 +34,17 @@ public class CustomerTest1 {
 	}
 
 	@Test
-	public void addCustomerDetails(){
+	public void getCustomerDetails(){
 		Customer cust=service.adduser(customer3);
 		assertEquals(cust,customer3);
 	}
 	@Test
-	public void updateCustomerDetailsValid(){
+	public void getValidupdateCustomerDetails(){
 		Customer cust=service.updateuser(customer1);
 		assertEquals(cust.toString(),customer1.toString());
 	}
 	@Test
-	public void updateCustomerDetailsInvalid()throws NoRecordFoundException{
+	public void getInvalidCustomerDetails()throws NoRecordFoundException{
 		Customer m=service.updateuser(customer2);
 		assertEquals(m,customer2);
 	}
@@ -61,21 +61,21 @@ public class CustomerTest1 {
 		assertEquals(expected,actual);
 	}
 	@Test
-	public void findCustomerDetailsByUserInValid(){
+	public void getCustomerDetailsByIdInValid(){
 		int expected=0;
 		int actual=service.findUser(12);
 		assertEquals(expected,actual);
 	}
 	@Test
-	public void findCustomerDetailsByUserValid(){
+	public void getCustomerDetailsByIdValid(){
 		int expected=1;
-		int actual=service.findUser(15);
+		int actual=service.findUser(1);
 		assertEquals(expected,actual);
 	}
 	@Test
-	public void findCustomerDetailsByUserInValidDAO(){
+	public void getCustomerDetailsByUserInValidDAO(){
 		Customer expected=new Customer("Dheeraj","Male","20-09-1997","745789034","FIT","NONe");
-		Customer actual=dao.findByUser(13);
+		Customer actual=dao.findByUser(3);
 		assertEquals(expected.toString(),actual.toString());
 	}
 
