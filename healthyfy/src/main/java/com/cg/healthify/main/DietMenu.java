@@ -3,7 +3,6 @@ package com.cg.healthify.main;
 import java.util.Scanner;
 import com.cg.healthify.pojo.DietPlan;
 import com.cg.healthify.services.DietServiceImpl;
-
 public class DietMenu {
 	Scanner sc = new Scanner(System.in);
 	String ContChoice;
@@ -39,7 +38,7 @@ public class DietMenu {
 				diet.setId(sc.nextInt());
 				System.out.println("Enter New Slot");
 				diet.setSlots(sc.next());
-				dietimpl.updateDiet(diet);
+				dietimpl.updateDiet(diet);				
 				break;
 			case 3:
 				System.out.println("Please Confirm your Id to remove your Diet plan: ");
@@ -49,7 +48,16 @@ public class DietMenu {
 			case 4:
 				System.out.println("Please give your ID to get your diet details: ");
 				diet.setId(sc.nextInt());
-				dietimpl.findDietData(diet);
+				int value = diet.getId();
+				DietPlan dietPlanInfo = dietimpl.findDietData(value);
+				if (dietPlanInfo != null && dietPlanInfo.getId() != 0) {
+					System.out.println("DietID: " + dietPlanInfo.getId() + "\n" + "Slots: " + dietPlanInfo.getSlots()
+							+ "\n" + "FOOD TYPE" + dietPlanInfo.getTypeOfFood() + "\n" + "PROTIEN RATIO"
+							+ dietPlanInfo.getProteinRatio());
+				} else {
+					System.out.println("No Record Found");
+				}
+
 				break;
 			case 5:
 				System.exit(0);
