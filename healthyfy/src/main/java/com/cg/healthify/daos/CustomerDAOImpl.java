@@ -1,4 +1,5 @@
 //package com.cg.healthyfy.daos;
+package com.cg.healthify.daos;
 import java.util.List;
 
 import javax.persistence.EntityManager;
