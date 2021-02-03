@@ -2,66 +2,92 @@ package com.cg.healthify.main;
 
 import java.util.Scanner;
 
+import com.cg.healthify.exceptions.NegativeIdException;
 import com.cg.healthify.pojo.Exercise;
 import com.cg.healthify.services.ExerciseServiceImpl;
 
 public class ExerciseMenu {
-	Scanner sc = new Scanner(System.in);
-	Exercise exercise = new Exercise();
-	String ContChoice;
-	ExerciseServiceImpl exerciseimpl = new ExerciseServiceImpl();
-
-	void menu() {
-		System.out.println("1. ADD EXERCISE");
-		System.out.println("2. DELETE EXERCISE");
-		System.out.println("3. UPDATE EXERCISE");
-		System.out.println("4. DISPLAY ALL EXERCISES");
-		System.out.println("5. EXIT");
-	}
-
-	public void exerciseMenu() {
-
+	public static void main(String[] args) throws NegativeIdException {
+		ExerciseServiceImpl exerciseServiceImpl=new ExerciseServiceImpl();
+		Exercise exercise = new Exercise();
+		int choice;
+		String continueChoice;
+		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("Enter the Choice: ");
-			menu();
-			int choice = sc.nextInt();
+			showMenu();
+			System.out.println("Enter Your Choice");
+			choice = sc.nextInt();
 			switch (choice) {
+			
 			case 1:
-				System.out.println("Enter your ID: ");
+				System.out.println("ADD EXERCISE");
+				System.out.println("Enter Exercise ID: ");
 				exercise.setId(sc.nextInt());
-				System.out.println("Enter the Exercise type: ");
-				exercise.setExerciseType(sc.next());
-				System.out.println("Enter the exercise plan : ");
-				exercise.setExercisePlan(sc.next());
-				exerciseimpl.addExercise(exercise);
+				System.out.println("Enter Exercise Type : ");
+				exercise.setExerciseType(sc.nextLine());
+				System.out.println("Enter Exercise Plan : ");
+				exercise.setExercisePlan(sc.nextLine());
+				exerciseServiceImpl.addExercise(exercise);
+				System.out.println("EXERCISE ADDED SUCCESSFULLY");
 				break;
+				
 			case 2:
-				System.out.println("Please Confirm your Id to remove the exercise plan: ");
+				System.out.println("UPDATE EXERCISE");
+				System.out.println("Enter Exercise Id: ");
 				exercise.setId(sc.nextInt());
-				exerciseimpl.deleteExercise(exercise);
+				System.out.println("Enter Exercise Plan to be Updated: ");
+				exercise.setExercisePlan(sc.nextLine());
+				exerciseServiceImpl.updateExercise(exercise);
+				System.out.println("EXERCISE PLAN UPDATED");
 				break;
+				
 			case 3:
-				System.out.println("Please Confirm your ID to update the Exercise plan ");
+				System.out.println("DELETING EXERCISE");
+				System.out.println("Enter Exercise ID : ");
 				exercise.setId(sc.nextInt());
-				System.out.println("Enter the Exercise type: ");
-				exercise.setExerciseType(sc.next());
-				System.out.println("Enter the exercise plan : ");
-				exercise.setExercisePlan(sc.next());
-				exerciseimpl.updateExercise(exercise);
+				exerciseServiceImpl.deleteExercise(exercise);
+				System.out.println("EXERCISE DELETED SUCCESSFULLY");
 				break;
+				
 			case 4:
-				System.out.println("Please give your ID to get your exercise details: ");
-				exercise.setId(sc.nextInt());
-				exerciseimpl.findExerciseData(exercise);
+				System.out.println("DISPLAYING EXERCISES");
+				exerciseServiceImpl.findAll();
 				break;
+				
 			case 5:
-				System.exit(0);
+				System.out.println("EXERCISE DETAILS BY ID");
+				System.out.println("Enter Exercise ID : ");
+				int id=sc.nextInt();
+				try {
+					exerciseServiceImpl.findById(id);
+				} catch (NullPointerException err) {
+					err.printStackTrace();
+				} catch (NegativeIdException err) {
+					err.printStackTrace();
+				}
 				break;	
+				
+			case 0:
+				System.exit(0);
+				break;
+				
 			default:
 				System.out.println("Wrong Choice");
+				break;
 			}
-			System.out.println("Want to Continue as user? y/n");
-			ContChoice = sc.next();
-		} while (ContChoice.equalsIgnoreCase("y"));
+			System.out.println("Do you want to continue : y/n");
+			continueChoice = sc.next();
+		} while (continueChoice.equalsIgnoreCase("y"));
+		
+
+		}
+	private static void showMenu() {
+		System.out.println("**EXERCISE MENU**");
+		System.out.println("1. Add Exercise");
+		System.out.println("2. Update Exercise");
+		System.out.println("3. Delete Exercise");
+		System.out.println("4. Display All Exercises");
+		System.out.println("5. Display Ecercise By ID");
+		System.out.println("0. Exit");
 	}
 }
