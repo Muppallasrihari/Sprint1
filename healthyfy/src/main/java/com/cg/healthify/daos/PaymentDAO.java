@@ -8,7 +8,7 @@ public interface PaymentDAO {
  
 	public Payment save(Payment payment);
 		
-	public Payment delete(Payment payment);
+	public Payment delete(int id);
 	
     public Payment FindAllPayments(Payment payment);
     
