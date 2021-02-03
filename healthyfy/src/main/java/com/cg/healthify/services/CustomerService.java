@@ -10,7 +10,7 @@ public interface CustomerService {
 
 	public Customer updateUser(Customer customer);
 
-	public Customer deleteUser(Customer customer);
+	public int deleteUser(int id);
 
 	public int findUser(int id);
 
