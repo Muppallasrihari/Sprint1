@@ -12,7 +12,7 @@ public class Exercise {
 	
 	public Exercise(int id, String exerciseType, String exercisePlan) {
 		super();
-		Id = id;
+		this.Id = id;
 		this.exerciseType = exerciseType;
 		this.exercisePlan = exercisePlan;
 	}
@@ -26,7 +26,7 @@ public class Exercise {
 		return Id;
 	}
 	public void setId(int id) {
-		Id = id;
+		this.Id = id;
 	}
 	public String getExerciseType() {
 		return exerciseType;
