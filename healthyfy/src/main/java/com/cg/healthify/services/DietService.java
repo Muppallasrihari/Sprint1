@@ -10,7 +10,7 @@ public interface DietService {
 
 	public DietPlan deleteDiet(DietPlan diet);
 
-	public DietPlan findDietData(DietPlan diet);
+	public DietPlan findDietData(int id);
 
 
 }
