@@ -30,16 +30,31 @@ public class LoginMenu {
 			cMenu.add();
 	
 			break;
-		case 2:
-			// CustomerMenu men=new CustomerMenu();
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Enter your ID:");
-			int ini = sc.nextInt();
-			System.out.println("Enter Password:");
-			String password = sc.next();
-			custimpl.loginAuthentication(ini,password);
-			// men.customer_menu();
-			break;
+	       case 2:
+			        //custimpl.loginAuthentication();
+				EntityManager em=SameUtilContainer.emf.createEntityManager();
+				System.out.println("Enter your ID:");
+				int ini=sc.nextInt();
+				System.out.println("Enter Password:");
+				String password=sc.next();
+				int io=0;
+
+				Query query=em.createQuery("from Login");
+				List<Login> loginm= query.getResultList();
+				for(Login i:loginm) {
+					if(i.getId()==ini && i.getPassword().equals(password)) {
+						io++;
+						break;
+					}
+				}
+				if(io==0) {
+					System.out.println("Invalid User!!");
+				}
+				else {
+					MainMenu mains=new MainMenu();
+					mains.main_menu();		  
+				}
+				break;
 		default:
 			System.exit(0);
 			break;
