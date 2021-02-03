@@ -3,6 +3,9 @@ package com.cg.healthify.services;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.cg.healthify.exceptions.NoRecordFoundException;
@@ -12,6 +15,7 @@ import com.cg.healthify.util.DBUtil;
 import com.cg.healthify.daos.*;
 
 public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
+	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nutritionapp");
 	Exercise exercise = new Exercise();
 	ExerciseDAOImpl exercisedao = new ExerciseDAOImpl();
 	Login login = new Login();
@@ -21,7 +25,8 @@ public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
 	public Exercise addExercise(Exercise exercise) {
 		int io = 0;
 		try {
-			Query query = em.createQuery("from Login");
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			Query query = entityManager.createQuery("from Login");
 			List<Login> loginm = query.getResultList();
 			for (Login i : loginm) {
 				if (i.getId() == exercise.getId()) {
@@ -33,19 +38,20 @@ public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
 		} catch (NoRecordFoundException m) {
 			System.out.println(m);
 		}
-		if (io == 1) {
-			exercisedao.saveExercise(exercise, login);
-		}
+		if (io == 1) 
+			exercisedao.saveExercise(exercise);//, login);
+
 		return exercise;
 
 	}
 
-	
+
 	@Override
 	public Exercise updateExercise(Exercise exercise) {
 		int io = 0;
 		try {
-			Query query = em.createQuery("from Login");
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			Query query = entityManager.createQuery("from Login");
 			List<Login> loginm = query.getResultList();
 			for (Login i : loginm) {
 				if (i.getId() == exercise.getId()) {
@@ -57,10 +63,10 @@ public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
 		} catch (NoRecordFoundException m) {
 			System.out.println(m);
 		}
-		if (io == 1) {
+		if (io == 1) 
 
 			exercisedao.updateExercise(exercise);
-		}
+
 		return exercise;
 	}
 
@@ -74,7 +80,8 @@ public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
 	public Exercise findExerciseData(Exercise exercise) {
 		int io = 0;
 		try {
-			Query query = em.createQuery("from Login");
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			Query query = entityManager.createQuery("from Login");
 			List<Login> loginm = query.getResultList();
 			for (Login i : loginm) {
 				if (i.getId() == exercise.getId()) {
@@ -86,16 +93,16 @@ public class ExerciseServiceImpl extends DBUtil implements ExerciseService {
 		} catch (NoRecordFoundException m) {
 			System.out.println(m);
 		}
-		if (io == 1) {
+		if (io == 1) 
 			exercisedao.customerExercisePlan(exercise);
-		}
+
 		return exercise;
 	}
-	
+
 	private void Validate(int io) throws NoRecordFoundException {
-		if (io == 0) {
+		if (io == 0) 
 			throw new NoRecordFoundException("No Records Found");
-		}
+
 	}
 
 
