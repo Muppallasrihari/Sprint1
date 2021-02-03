@@ -4,13 +4,11 @@ import com.cg.healthify.pojo.DietPlan;
 import com.cg.healthify.pojo.Login;
 
 public interface DietDAO {
-	
-	 void saveDiet(DietPlan diet,Login login);
+	public DietPlan save_diet_plan(DietPlan diet);
 
-	 void updateDietPlan(DietPlan diet);
-   
-	 void removeDietPlan(DietPlan diet);
+	public DietPlan update_diet_plan(DietPlan diet);
 
-	 void customerDietPlan(DietPlan diet);
+	public DietPlan remove_diet_plan(DietPlan diet);
 
+	public DietPlan customer_diet_plan_data(int id);
 }
