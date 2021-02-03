@@ -24,9 +24,9 @@ public class ExerciseMenu {
 				System.out.println("Enter Exercise ID: ");
 				exercise.setId(sc.nextInt());
 				System.out.println("Enter Exercise Type : ");
-				exercise.setExerciseType(sc.nextLine());
+				exercise.setExerciseType(sc.next());
 				System.out.println("Enter Exercise Plan : ");
-				exercise.setExercisePlan(sc.nextLine());
+				exercise.setExercisePlan(sc.next());
 				exerciseServiceImpl.addExercise(exercise);
 				System.out.println("EXERCISE ADDED SUCCESSFULLY");
 				break;
@@ -36,7 +36,7 @@ public class ExerciseMenu {
 				System.out.println("Enter Exercise Id: ");
 				exercise.setId(sc.nextInt());
 				System.out.println("Enter Exercise Plan to be Updated: ");
-				exercise.setExercisePlan(sc.nextLine());
+				exercise.setExercisePlan(sc.next());
 				exerciseServiceImpl.updateExercise(exercise);
 				System.out.println("EXERCISE PLAN UPDATED");
 				break;
