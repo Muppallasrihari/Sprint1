@@ -22,7 +22,7 @@ public class Payment {
 	 * This represents discount amount of payment 
 	 */
 	private double discount;
-	/*
+		/*
 	 * This represents date of payment 
 	 */
 	private String created_At;
@@ -102,7 +102,54 @@ public class Payment {
 				+ ", planCategory=" + planCategory + ", payableAmount=" + payableAmount + "]";
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((created_At == null) ? 0 : created_At.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(discount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + id;
+		temp = Double.doubleToLongBits(payableAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(payment);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((planCategory == null) ? 0 : planCategory.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Payment other = (Payment) obj;
+		if (created_At == null) {
+			if (other.created_At != null)
+				return false;
+		} else if (!created_At.equals(other.created_At))
+			return false;
+		if (Double.doubleToLongBits(discount) != Double.doubleToLongBits(other.discount))
+			return false;
+		if (id != other.id)
+			return false;
+		if (Double.doubleToLongBits(payableAmount) != Double.doubleToLongBits(other.payableAmount))
+			return false;
+		if (Double.doubleToLongBits(payment) != Double.doubleToLongBits(other.payment))
+			return false;
+		if (planCategory == null) {
+			if (other.planCategory != null)
+				return false;
+		} else if (!planCategory.equals(other.planCategory))
+			return false;
+		return true;
+	}
+
+
 	
 	
 }
