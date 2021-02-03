@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import com.cg.healthify.exceptions.NegativeIdException;
 import com.cg.healthify.pojo.Exercise;
-import com.cg.healthify.util.DBUtil;
+
 
 public class ExerciseDAOImpl implements ExerciseDAO {
 	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nutritionapp");
@@ -53,14 +53,14 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
 	@Override
 	public List<Exercise> findAll() {
-		EntityManager em=DBUtil.emf.createEntityManager();
-		Query query=em.createQuery("from Exercise");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		Query query=entityManager.createQuery("from Exercise");
 		@SuppressWarnings("unchecked")
 		List<Exercise> list=(List<Exercise>)query.getResultList();
 		for(Exercise ex:list) {
-			System.out.print("Exercise Id: "+ex.getId());
-			System.out.print("Exercise Type: "+ex.getExerciseType());
-			System.out.print("Exercise Plan: "+ex.getExercisePlan());
+			System.out.print("Exercise Id="+ex.getId()+"\n");
+			System.out.print("Exercise Type="+ex.getExerciseType()+"\n");
+			System.out.print("Exercise Plan="+ex.getExercisePlan()+"\n");
 			System.out.println("\n");
 
 		}
@@ -77,10 +77,10 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 		else {
 			Exercise ex = entityManager.find(Exercise.class, id);
 			if(ex!=null) {
-				System.out.print("Exercise Id: "+ex.getId());
-				System.out.print("Exercise Type "+ex.getExerciseType());
-				System.out.print("Exercise Plan "+ex.getExercisePlan());
-
+				System.out.print("Exercise Id="+ex.getId()+"\n");
+				System.out.print("Exercise Type="+ex.getExerciseType()+"\n");
+				System.out.print("Exercise Plan="+ex.getExercisePlan()+"\n");
+				System.out.println("\r");
 				entityManager.getTransaction().commit();
 				entityManager.close();
 				return ex;
