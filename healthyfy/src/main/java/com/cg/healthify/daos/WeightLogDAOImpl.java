@@ -12,7 +12,7 @@ public class WeightLogDAOImpl extends DBUtil implements WeightLogDAO{
 	@Override
 	public WeightLog addUserWeight(WeightLog weg) {
 		EntityManager em=DBUtil.emf.createEntityManager();
-	//	 weg=new WeightLogInfo(weg.getWeight(),weg.getCreated_At(),weg.getUpdated_At(),weg.getCreateTime(),weg.getUpdateTime());
+	
    weg=new WeightLog(weg.getId(),weg.getWeight(),weg.getCreated_At(),weg.getUpdated_At(),weg.getCreateTime(),weg.getUpdateTime());
     em.getTransaction().begin();
     System.out.println(weg.getId());
