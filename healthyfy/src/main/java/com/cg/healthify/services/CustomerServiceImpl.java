@@ -103,31 +103,5 @@ public class CustomerServiceImpl implements CustomerService{
 			throw new NoRecordFoundException("No Records Found");
 		}
 	}
-
-	public void loginAuthentication() throws NoRecordFoundException {
-		Scanner sc=new Scanner(System.in);
-		EntityManager em=SameUtilContainer.emf.createEntityManager();
-		System.out.println("Enter your ID:");
-		int ini=sc.nextInt();
-		System.out.println("Enter Password:");
-		String password=sc.next();
-		int io=0;
-
-		Query query=em.createQuery("from Login");
-		List<Login> loginm= query.getResultList();
-		for(Login i:loginm) {
-			if(i.getId()==ini && i.getPassword().equals(password)) {
-				io++;
-				break;
-			}
-		}
-		if(io==0) {
-			System.out.println("Invalid User!!");
-		}
-		else {
-			MainMenu mains=new MainMenu();
-			mains.main_menu();		  
-		}
-	}
 }
 
