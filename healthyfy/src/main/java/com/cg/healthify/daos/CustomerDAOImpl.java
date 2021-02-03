@@ -22,7 +22,7 @@ public class CustomerDAOImpl implements CustomerDAO{
 	  em.getTransaction().begin();
       em.persist(in);
       log.setId(in.getId());
-	  log.setPassword(in.getName()+in.getId());
+	  log.setPassword(in.getName().split(" ")[0]+in.getId());
       em.persist(log);
       System.out.println("Welcome Our New User: "+in.getName()+"\nYour LoginId is: "+log.getId()+"\nYour Password is: "+log.getPassword());
       em.getTransaction().commit();
