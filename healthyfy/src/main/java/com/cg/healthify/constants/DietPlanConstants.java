@@ -9,5 +9,4 @@ public class DietPlanConstants {
 	public static double nonVegCarbsRatio=10.0;
 	public static double nonVegFatRatio=18.0;
 
-	
 }
