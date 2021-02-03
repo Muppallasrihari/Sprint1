@@ -5,7 +5,7 @@ import com.cg.healthify.pojo.Login;
 
 public interface ExerciseDAO {
 	
-    public void saveExercise(Exercise exercise,Login login);
+    public void saveExercise(Exercise exercise);//,Login login);
 	
 	public void updateExercise(Exercise exercise);
 	

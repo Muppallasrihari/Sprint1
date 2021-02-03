@@ -1,52 +1,63 @@
 package com.cg.healthify.daos;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.cg.healthify.pojo.Exercise;
-import com.cg.healthify.pojo.Login;
 import com.cg.healthify.util.DBUtil;
 
 public class ExerciseDAOImpl extends DBUtil implements ExerciseDAO {
+	
+	private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nutritionapp");
 
 	@Override
-	public void saveExercise(Exercise exercise, Login login) {
+	public void saveExercise(Exercise exercise) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		exercise = new Exercise(exercise.getId(), exercise.getExerciseType(), exercise.getExercisePlan());
-		em.getTransaction().begin();
-		em.persist(exercise);
+		entityManager.getTransaction().begin();
+		entityManager.persist(exercise);
 		System.out.println("Exercise Plan Saved.");
-		em.getTransaction().commit();
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 
 	@Override
 	public void customerExercisePlan(Exercise exercise) {
-		em.getTransaction().begin();
-		exercise = em.find(Exercise.class, exercise.getId());
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+		exercise = entityManager.find(Exercise.class, exercise.getId());
 		System.out.println("ID:" + exercise.getId() + "\n" + "Exercise Type: " + exercise.getExerciseType() + "\n"
 				+ "Exercise Plan : " + exercise.getExercisePlan());
-		em.getTransaction().commit();
+		entityManager.getTransaction().commit();
+		entityManager.close();
 
 	}
 
 	@Override
 	public void updateExercise(Exercise exercise) {
-		// TODO Auto-generated method stub
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		String newType = exercise.getExerciseType();
 		String newPlan = exercise.getExercisePlan();
-		em.getTransaction().begin();
-		exercise = em.find(Exercise.class, exercise.getId());
+		entityManager.getTransaction().begin();
+		exercise = entityManager.find(Exercise.class, exercise.getId());
 		exercise.setExerciseType(newType);
 		exercise.setExercisePlan(newPlan);
-		em.persist(exercise);
+		entityManager.persist(exercise);
 		System.out.println("Your Exercise plan is Updated...");
-		em.getTransaction().commit();
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 
 	@Override
 	public void deleteExercise(Exercise exercise) {
-		// TODO Auto-generated method stub
-		em.getTransaction().begin();
-		exercise = em.find(Exercise.class, exercise.getId());
-		em.remove(exercise);
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManager.getTransaction().begin();
+		exercise = entityManager.find(Exercise.class, exercise.getId());
+		entityManager.remove(exercise);
 		System.out.println("Your Current Exercise Plan is Removed");
-		em.getTransaction().commit();
+		entityManager.getTransaction().commit();
+		entityManager.close();
 	}
 
 	
