@@ -8,36 +8,75 @@ import com.cg.healthify.util.DBUtil;
 
 public class WeightLogServiceImpl extends DBUtil implements WeightLogService{
 
-
-	WeightLog weight=new WeightLog();
-	WeightLogDAOImpl wdao=new WeightLogDAOImpl();
-	Scanner sc=new Scanner(System.in);
+WeightLogDAOImpl wdao=new WeightLogDAOImpl();
+	
+	
 	@Override
-	public void addWeightLog() {
-		// TODO Auto-generated method stub
-		wdao.addUserWeight(weight);
+	public WeightLog addWeightLog(WeightLog weightLog) {
+
+	wdao.addUserWeight(weightLog);
+	return weightLog;
+	
+	}
+        @Override
+	public WeightLog updateWeightLog(WeightLog weightLog) {
+		
+
+		System.out.print(weightLog.getId());
+		int index=0;
+		
+		Query query =em.createQuery("from WeightLog");
+		List<WeightLog> users =  query.getResultList();
+		for (WeightLog user : users) 
+		{
+			
+				if(user.getId()!=weightLog.getId())
+				{
+					index=1;
+					
+				}	
+				else
+				{
+					index=2;
+				break;
+				}
+			
+			
+		}
+		try
+		{
+			if(index==1)
+			{
+				throw new InvalidIdException();
+			}
+			else
+			{
+			wdao.updateUserWeight(weightLog);
+			}
+		}
+		catch(InvalidIdException e)
+		{
+			
+			System.out.println("Invalid id.");
+			
+		}
+		return weightLog;
 		
 	}
-
-	@Override
-	public void UpdateWeightLog() {
-		// TODO Auto-generated method stub
-		wdao.updateUserWeight(weight);
-
+@Override
+	public WeightLog deleteWeightLog(WeightLog weightLog) {
+			
+		wdao.deleteUserWeight(weightLog);
+		return weightLog;
 	}
 
 	@Override
-	public void DeleteWeightLog() {
-		// TODO Auto-generated method stub
-		wdao.deleteUserWeight(weight);
-
+	public WeightLog findWeightLog(WeightLog weightLog) {
+		
+		wdao.findUserWeight(weightLog);
+		return weightLog;
+		
 	}
-
-	@Override
-	public void findWeightLog() {
-		// TODO Auto-generated method stub
-		wdao.findUserWeight(weight);
-
-	}
+	
 
 }
