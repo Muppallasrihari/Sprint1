@@ -10,53 +10,63 @@ import com.cg.healthify.util.DBUtil;
 public class WeightLogDAOImpl extends DBUtil implements WeightLogDAO{
 
 	@Override
-	public WeightLog addUserWeight(WeightLog weight) {
-		// TODO Auto-generated method stub
-		weight=new WeightLog(weight.getId(),weight.getWeight(),weight.getCreated_At(),weight.getUpdated_At(),weight.getCreateTime(),weight.getUpdateTime());
-	    em.getTransaction().begin();
-	    em.persist(weight);
-	    System.out.println("Weight Log Added");
-	    em.getTransaction().commit();
-		return weight;
-	}
-
-	@Override
-	public WeightLog updateUserWeight(WeightLog weight) {
-		LocalDate newDate=weight.getUpdated_At();
-		LocalTime newTime=weight.getUpdateTime();
-		double newWeight=weight.getWeight();
-		em.getTransaction().begin();
-		weight=em.find(WeightLog.class, weight.getId());
-		weight.setWeight(newWeight);
-		weight.setUpdated_At(newDate);
-		weight.setUpdateTime(newTime);
-		System.out.println("Weight Log Updated At: "+weight.getUpdateTime());
-		em.getTransaction().commit();
-		return weight;
+	public WeightLog addUserWeight(WeightLog weg) {
+		EntityManager em=DBUtil.emf.createEntityManager();
+	//	 weg=new WeightLogInfo(weg.getWeight(),weg.getCreated_At(),weg.getUpdated_At(),weg.getCreateTime(),weg.getUpdateTime());
+   weg=new WeightLog(weg.getId(),weg.getWeight(),weg.getCreated_At(),weg.getUpdated_At(),weg.getCreateTime(),weg.getUpdateTime());
+    em.getTransaction().begin();
+    System.out.println(weg.getId());
+    em.persist(weg);
+    System.out.println("Weight Log Added");
+    em.getTransaction().commit();
+	em.close();
+	return weg;
 		
 	}
 
 	@Override
-	public WeightLog deleteUserWeight(WeightLog weight) {
-		// TODO Auto-generated method stub
+	public WeightLog updateUserWeight(WeightLog weg) {
+		EntityManager em=DBUtil.emf.createEntityManager();
+		LocalDate newDate=weg.getUpdated_At();
+		LocalTime newTime=weg.getUpdateTime();
+		double newWeight=weg.getWeight();
 		em.getTransaction().begin();
-		weight = em.find(WeightLog.class, weight.getId());
-		em.remove(weight);
-		System.out.println("Your Current user Weight is Removed");
+		weg=em.find(WeightLog.class, weg.getId());
+		weg.setWeight(newWeight);
+		weg.setUpdated_At(newDate);
+		weg.setUpdateTime(newTime);
+		System.out.println("Weight Log Updated At: "+weg.getUpdateTime());
 		em.getTransaction().commit();
-		return weight;
+		em.close();
+		return weg;
 		
 	}
 
 	@Override
-	public WeightLog findUserWeight(WeightLog weight) {
-		// TODO Auto-generated method stub
+	public WeightLog deleteUserWeight(WeightLog weg) {
+		EntityManager em=DBUtil.emf.createEntityManager();
+		System.out.print(weg.getId());
+		weg=em.find(WeightLog.class, weg.getId());
 		em.getTransaction().begin();
-		weight = em.find(WeightLog.class, weight.getId());
-		System.out.println("ID:" + weight.getId() + "\n" + "Weight : "+weight.getWeight()+ "\n"+"Date : "+weight.getCreated_At());
+		em.remove(weg);
+		System.out.print(weg);
+		System.out.println("Your Log is deleted");
 		em.getTransaction().commit();
-		return weight;
+		em.close();
+		return weg;
 	}
-	
+
+	@Override
+	public WeightLog findUserWeight(WeightLog weg) {
+		EntityManager em=DBUtil.emf.createEntityManager();
+		weg=em.find(WeightLog.class, weg.getId());
+		em.getTransaction().begin();
+		System.out.println("ID: "+weg.getId()+"\nWeight Log: "+weg.getWeight()+"\nCreate Date: "+weg.getCreated_At()+"\nCreate Time"+weg.getCreateTime());
+		System.out.println("Update Date: "+weg.getUpdated_At()+"\nUpdate Time: "+weg.getUpdateTime());
+		em.getTransaction().commit();
+em.close();
+return weg;
+	}
+
 
 }
